@@ -8,9 +8,11 @@
 <bean id = "echoHandler" class="chat.EchoHandler"></bean>
 
 	<websocket:handlers>
-		<websocket:mapping handler="echoHandler" path="/echo-ws"/>
+		<websocket:mapping handler="echoHandler" path="/echo-ws/*"/>
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
+	
+
 
 
 </beans>

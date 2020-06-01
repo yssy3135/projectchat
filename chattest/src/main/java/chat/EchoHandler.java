@@ -6,8 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -22,21 +26,23 @@ public class EchoHandler extends TextWebSocketHandler {
 	 
 	
 	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
-	
-	
+
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session)
+	
 		throws Exception{
 		//Map사용시
-		//session.put(session.getId(), session);
+		//sessions.put(session.getId(), session);
+		
 		
 		//List 쓸때
 		sessionList.add(session);
+		
 		logger.info("{} 열결됨",session.getId());
 		for(int i = 0 ; i < sessionList.size();i++) {
         	
         	//session.sendMessage(new TextMessage(session.getId()+"로부터"+ message.getPayload()+"받음"));
-        	sessionList.get(i).sendMessage(new TextMessage(session.getId()+"님이 접속하셨습니다"));
+        	sessionList.get(i).sendMessage(new TextMessage(session+"님이 접속하셨습니다"));
         }
 		
 		
@@ -88,6 +94,11 @@ public class EchoHandler extends TextWebSocketHandler {
 			CloseStatus status) throws Exception{
 		
 		sessionList.remove(session);
+		for(int i = 0 ; i < sessionList.size();i++) {
+			sessionList.get(i).sendMessage(new TextMessage(session.getId()+"님이 나갔습니다"));
+        }
+		
+		
 	}
 	
 	

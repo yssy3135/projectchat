@@ -19,35 +19,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script type="text/javascript">
 
-	var sock;
 
 	$(document).ready(function() {
 	
-	    $("#room").click(function() {
+	    $("#sendBtn").click(function() {
 			
-			sock = new SockJS("<c:url value='/echo-ws/'/>");
-
-			
+	        sendMessage();
+	
 	    });
-	    
-	    
-	   $("#sendBtn").click(function() {
-				
-			
-		    	
-		    	bno =  $("#sendBtn").val();
-		        sendMessage();
-				
-		    });
-	    
-	    
 	
 	});
 	
+	var sock;
 	
-	//웹소켓을 지정한 url로 연결한다. 소켓 서버 new 해야 새로운 방이 생긴다.
+	//웸소켓을 지정한 url로 연결한다.
 	
-	sock2 = new SockJS("<c:url value='/echo-ws/'/>");
+	sock = new SockJS("<c:url value="/echo-ws2"/>");
+	
 	
 	//자바스크립트 안에 function을 집어넣을 수 있음.
 	
@@ -103,12 +91,7 @@
 
     <input type="text" id="message" />
 
-
-    <input type="button" id="room" value="1" />
-    <input type="button" id="room" value="2" />
-    
-    <input type="button" id="sendBtn" value="보내기" />
-    
+    <input type="button" id="sendBtn" value="전송" />
 
     <div id="data"></div>
 
