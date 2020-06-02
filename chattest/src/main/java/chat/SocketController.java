@@ -24,7 +24,7 @@ public class SocketController  {
 			session.setAttribute("id", req.getParameter("id"));
 			
 			
-			return "chat";
+			return "stomp";
 		}
 		
 

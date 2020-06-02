@@ -26,6 +26,7 @@
 	    $("#room").click(function() {
 			
 			sock = new SockJS("<c:url value='/echo-ws/'/>");
+			
 
 			
 	    });
