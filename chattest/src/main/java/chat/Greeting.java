@@ -4,6 +4,7 @@ public class Greeting {
 	
 	private String content;
 	public Greeting() {
+
 		// TODO Auto-generated constructor stub
 	}
 	public String getContent() {

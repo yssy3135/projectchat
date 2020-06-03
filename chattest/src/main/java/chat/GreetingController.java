@@ -10,12 +10,24 @@ public class GreetingController {
 	
 	
 	@MessageMapping("/hello")
-	@SendTo("/topic/greetings")
+	@SendTo("/topic/a")
 	public Greeting greeting(HelloMessage message) throws Exception{
+		System.out.println("메시지 컨트롤");
+		System.out.println(message);
 		Thread.sleep(1000);
 		
+		return new Greeting("Hello," +HtmlUtils.htmlEscape(message.getName()) + "!" + ":"+HtmlUtils.htmlEscape(message.getContents())    );
+	}
+	
+	
+	@MessageMapping("/welcome")
+	@SendTo("/topic/a")
+	public Greeting welcome(HelloMessage message) throws Exception{
+		System.out.println("메시지 컨트롤");
+		System.out.println(message);
+		Thread.sleep(1000);
 		
-		return new Greeting("Hello," +HtmlUtils.htmlEscape(message.getName()) + "!");
+		return new Greeting("Hello," +HtmlUtils.htmlEscape(message.getName())+"님 접속했습니다" );
 	}
 
 }

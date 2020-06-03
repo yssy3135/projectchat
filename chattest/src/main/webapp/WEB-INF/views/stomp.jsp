@@ -6,7 +6,8 @@
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
-<script src="https://raw.githubusercontent.com/stomp-js/stomp-websocket/master/lib/stomp.min.js"></script>
+<!-- <script src="https://raw.githubusercontent.com/stomp-js/stomp-websocket/master/lib/stomp.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script type="text/javascript">
 
 
@@ -25,16 +26,20 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/chat/gs-guide-websocket');
     console.log(socket);
      stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/topic/a', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content); 
         });
+        
+        
+    stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
     }); 
+    
     
 }
 
@@ -47,7 +52,28 @@ function disconnect() {
 }
 
 function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+	var name =  $("#name").val();
+	var contents =  $("#contents").val();
+	
+	
+	var message = {
+			'name': name,
+			 'contents' : contents
+			
+	};
+	
+	console.log(JSON.stringify(message));
+	console.log(JSON.stringify({'contents': $("#contents").val() }));
+	
+	
+    stompClient.send("/app/hello", {}, JSON.stringify(message));
+    		
+   
+   
+    //여기서'name'이라는 변수에 name을 받아서 전송
+    
+    //세션을 엮어서 아이디로 출력
+	/* {'contents': $("#contents").val() } */
 }
 
 function showGreeting(message) {
@@ -94,6 +120,7 @@ $(function () {
                     <label for="name">What is your name?</label>
                     <input type="text" id="name" class="form-control" placeholder="Your name here...">
                 </div>
+                    <input type="text" id="contents" class="form-control" placeholder="Your contents here...">
                 <button id="send" class="btn btn-default" type="submit">Send</button>
             </form>
         </div>
