@@ -25,11 +25,15 @@ function setConnected(connected) {
     $("#greetings").html("");
 }
 
-function connect() {
+function connect(roomname) {
     var socket = new SockJS('/chat/gs-guide-websocket');
     console.log(socket);
+    console.log(name);
+    
+    
      stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
+    	
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/a', function (greeting) {
@@ -37,7 +41,9 @@ function connect() {
         });
         
         
-    stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+    //stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+      stompClient.send("/app/welcome", {}, JSON.stringify( {'name': $("#name").val() }));
+    
     }); 
     
     
@@ -80,11 +86,16 @@ function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
 }
 
+var room = 
+function showroom(room) {
+    $("#rooms").append("<tr><td>" + room + "</td></tr>");
+}
+
 $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
+    $( "#connect" ).click(function() { connect(room); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
@@ -133,6 +144,8 @@ $(function () {
                     <th>Greetings</th>
                 </tr>
                 </thead>
+                <tbody id="rooms">
+                </tbody>
                 <tbody id="greetings">
                 </tbody>
             </table>

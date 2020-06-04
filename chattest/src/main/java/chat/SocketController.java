@@ -8,14 +8,33 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 @Controller
+@RequestMapping("/chat")
 public class SocketController  {
 
-		@RequestMapping("/chat")
-		public String viewChattingPage(HttpServletRequest req) {
+	
+	
+		@GetMapping("/new/{roomname}")
+		public String viewChattingPage(HttpServletRequest req,@PathVariable String roomname) {
+			
+		
+			
+			//HttpSession session = req.getSession();
+			
+			req.setAttribute("roomname", roomname);
+			
+			
+			return "stomp";
+		}
+		
+		
+		@GetMapping("/list")
+		public String showchatlist(HttpServletRequest req) {
 			
 		
 			
@@ -24,8 +43,11 @@ public class SocketController  {
 			session.setAttribute("id", req.getParameter("id"));
 			
 			
-			return "stomp";
+			return "chatlist";
 		}
+		
+		
+		
 		
 
 		

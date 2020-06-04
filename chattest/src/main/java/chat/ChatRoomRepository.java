@@ -21,6 +21,8 @@ public class ChatRoomRepository {
 	@PostConstruct
 	private void init() {
 		chatRoomMap = new LinkedHashMap<>();
+		System.out.println("초기화 해라");
+		System.out.println(chatRoomMap);
 	}
 	
 	
@@ -40,6 +42,10 @@ public class ChatRoomRepository {
 	
 	public ChatRoom createChatRoom(String name) {
 		ChatRoom chatRoom = ChatRoom.create(name);
+		
+		System.out.println(chatRoom.getRoomId()+"------"+chatRoom);
+		System.out.println(chatRoomMap);
+		
 		chatRoomMap.put(chatRoom.getRoomId(),chatRoom);
 		
 		return chatRoom;

@@ -14,11 +14,10 @@
 		
 	</websocket:handlers> -->
 	
-	
-	
-	<bean id="Controller" class="chat.GreetingController">
 
-	</bean>
+	
+	<bean id="Controller" class="chat.GreetingController"></bean>
+	<bean id="RoomController" class="chat.ChatRoomController"></bean>
 	
 	<websocket:message-broker application-destination-prefix="/app"   >
 		<websocket:stomp-endpoint path="/gs-guide-websocket"  allowed-origins="*" >
