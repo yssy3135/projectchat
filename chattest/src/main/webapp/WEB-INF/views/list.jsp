@@ -8,7 +8,7 @@
 </head>
 <body>
 	
-	<h2>${list.get[0] }</h2>
+	<h2>${list }</h2>
 
 </body>
 </html>

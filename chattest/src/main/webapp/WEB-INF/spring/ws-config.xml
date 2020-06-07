@@ -18,13 +18,17 @@
 	
 	<bean id="Controller" class="chat.GreetingController"></bean>
 	<bean id="RoomController" class="chat.ChatRoomController"></bean>
+	<bean id="homecontroller" class="kr.co.chat.HomeController">
+	
+</bean>
+	
 	
 	<websocket:message-broker application-destination-prefix="/app"   >
 		<websocket:stomp-endpoint path="/gs-guide-websocket"  allowed-origins="*" >
 			<websocket:sockjs />
 		</websocket:stomp-endpoint >
 		
-		<websocket:simple-broker  prefix="/topic/a" />
+		<websocket:simple-broker  prefix="/queue"  />
 	
 	</websocket:message-broker>
 	

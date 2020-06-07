@@ -37,10 +37,12 @@ public class SocketController  {
 		public String showchatlist(HttpServletRequest req) {
 			
 		
-			
 			HttpSession session = req.getSession();
+			session.setAttribute("id", "yssy3135");
+		
 			
-			session.setAttribute("id", req.getParameter("id"));
+		
+			req.setAttribute("id", "abc");
 			
 			
 			return "chatlist";

@@ -1,6 +1,7 @@
 package chat;
 
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ChatMessage {
 	
@@ -8,6 +9,7 @@ public class ChatMessage {
     private String chatRoomId;
     private String writer;
     private String message;
+    private String sendTime;
     private MessageType type;
     
     
@@ -16,6 +18,12 @@ public class ChatMessage {
     
     
     
+	public String getSendTime() {
+		return sendTime;
+	}
+	public void setSendTime(Date sendTime) {
+
+	}
 	public ChatMessage(String chatRoomId, String writer, String message, MessageType type) {
 		super();
 		this.chatRoomId = chatRoomId;

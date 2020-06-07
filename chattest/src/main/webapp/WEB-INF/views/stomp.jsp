@@ -25,19 +25,18 @@ function setConnected(connected) {
     $("#greetings").html("");
 }
 
-function connect(roomname) {
-    var socket = new SockJS('/chat/gs-guide-websocket');
+function connect() {
+    var socket = new SockJS('/gs-guide-websocket');
     console.log(socket);
-    console.log(name);
-    
+    console.log("coon : ${roomId}");
     
      stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
     	
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/a', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content); 
+        stompClient.subscribe('/queue/${roomId}', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content,JSON.parse(greeting.body).sendTime);
         });
         
         
@@ -60,19 +59,25 @@ function disconnect() {
 function sendName() {
 	var name =  $("#name").val();
 	var contents =  $("#contents").val();
-	
+	var roomid =  "${roomId}";
 	
 	var message = {
 			'name': name,
-			 'contents' : contents
-			
+			 'contents' : contents,
+			 'roomid' : roomid
 	};
 	
+	
+	
 	console.log(JSON.stringify(message));
-	console.log(JSON.stringify({'contents': $("#contents").val() }));
 	
 	
-    stompClient.send("/app/hello", {}, JSON.stringify(message));
+	
+    stompClient.send("/app/welcome/"+roomid, {}, JSON.stringify(message));
+    
+    
+ 
+    console.log("세션"+ ${id} );
     		
    
    
@@ -82,11 +87,12 @@ function sendName() {
 	/* {'contents': $("#contents").val() } */
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showGreeting(message,time) {
+    $("#greetings").append("<tr><td>" + message +"&nbsp&nbsp&nbsp</td><td style='font-size : 5px'>"+time+"</td ></tr>");
+   // $("#greetingstime").append("<td style='font-size : 5px'>"+time+"</td >");
 }
 
-var room = 
+
 function showroom(room) {
     $("#rooms").append("<tr><td>" + room + "</td></tr>");
 }
@@ -95,7 +101,7 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(room); });
+    $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
@@ -146,8 +152,12 @@ $(function () {
                 </thead>
                 <tbody id="rooms">
                 </tbody>
+                
                 <tbody id="greetings">
                 </tbody>
+
+                
+                
             </table>
         </div>
     </div>

@@ -1,9 +1,14 @@
 package chat;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,33 +43,43 @@ public class ChatRoomController {
 	}
 	
 	
+	/*
+	 * // 모든 채팅방 목록 반환
+	 * 
+	 * @GetMapping("/rooms")
+	 * 
+	 * @ResponseBody public ModelAndView roomlist(Model model){ ModelAndView mav =
+	 * new ModelAndView();
+	 * 
+	 * 
+	 * 
+	 * System.out.println(chatRoomRepository.findAllRoom().isEmpty());
+	 * mav.addObject("list", chatRoomRepository.findAllRoom());
+	 * mav.setViewName("list");
+	 * 
+	 * 
+	 * return mav; }
+	 */
+	
 	// 모든 채팅방 목록 반환
-//	@GetMapping("/rooms")
-//	@ResponseBody
-//	public ModelAndView roomlist(Model model){
-//		ModelAndView mav = new ModelAndView();
-//		
-//		
-//		
-//		System.out.println(chatRoomRepository.findAllRoom().isEmpty());
-//		mav.addObject("list", chatRoomRepository.findAllRoom());
-//		mav.setViewName("list");
-//		
-//		
-//		return mav;
-//	}
 	@GetMapping("/rooms")
 	@ResponseBody
-	public List<ChatRoom> room(){
+	public List<ChatRoom> room(HttpServletRequest req){
+		System.out.println(req.getAttribute("id"));
+		
 		return chatRoomRepository.findAllRoom();
 	}
 	
 	
 	//채팅방 생성
 	@RequestMapping("/room/{roomname}")
+
 	//@ResponseBody
 	public String createRoom(@PathVariable String roomname) {
+		
+		
 		chatRoomRepository.createChatRoom(roomname);
+	
 		return "list";
 	}
 	
@@ -74,17 +90,23 @@ public class ChatRoomController {
 	
 	//채팅방 입장
 	@GetMapping("/enter/{roomId}")
-	public String roomDetail(Model model,@PathVariable String roomId) {
-		model.addAttribute("roomId", roomId);
+	public String roomDetail(HttpServletRequest req,@PathVariable String roomId) {
+		//model.addAttribute("roomId", roomId);
+		
 		//Model객체는 이용하여 view로 데이터전송
 		//데이터 전송
+		HttpSession session = req.getSession();
+		session.setAttribute("id", "yssy3135");
+		
+		
+		
 		
 		//return "/chat/roomdetail";
 		return "stomp";
 		
 	}
 	
-	
+
 	
 	
 }

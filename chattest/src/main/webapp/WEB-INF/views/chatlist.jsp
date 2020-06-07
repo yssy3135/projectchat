@@ -19,9 +19,13 @@
 			console.log(this.textContent);
 			
 		
-			document.location.href ="/chat/chatroom/room/"+name;
+			document.location.href ="/chatroom/room/"+name;
 			
 		});
+		
+		
+		
+		
 		
 	});
 
