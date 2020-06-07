@@ -16,11 +16,9 @@
 	
 
 	
-	<bean id="Controller" class="chat.GreetingController"></bean>
-	<bean id="RoomController" class="chat.ChatRoomController"></bean>
-	<bean id="homecontroller" class="kr.co.chat.HomeController">
-	
-</bean>
+	<bean id="Controller" class="kr.co.chat.GreetingController"></bean>
+	<bean id="RoomController" class="kr.co.chat.ChatRoomController"></bean>
+
 	
 	
 	<websocket:message-broker application-destination-prefix="/app"   >

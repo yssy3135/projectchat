@@ -77,8 +77,8 @@ function sendName() {
     
     
  
-    console.log("세션"+ ${id} );
-    		
+    console.log("세션${id}" );
+    //세선 가져오는걸 id로		
    
    
     //여기서'name'이라는 변수에 name을 받아서 전송
