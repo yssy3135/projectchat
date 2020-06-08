@@ -2,15 +2,21 @@ package kr.co.chat.dto;
 
 public class CHATDTO {
 	private int roomname;
+	private String assemblename;
 	private int senderno;
 	private String chatcontent;
 	private String chattime;
+
 	
-	
-	
-	
-	
-	
+	public CHATDTO(int roomname, String assemblename, int senderno, String chatcontent, String chattime) {
+		super();
+		this.roomname = roomname;
+		this.assemblename = assemblename;
+		this.senderno = senderno;
+		this.chatcontent = chatcontent;
+		this.chattime = chattime;
+	}
+
 	public CHATDTO(int roomname, int senderno, String chatcontent, String chattime) {
 		super();
 		this.roomname = roomname;
@@ -42,6 +48,14 @@ public class CHATDTO {
 	}
 	public void setChattime(String chattime) {
 		this.chattime = chattime;
+	}
+
+	public String getAssemblename() {
+		return assemblename;
+	}
+
+	public void setAssemblename(String assemblename) {
+		this.assemblename = assemblename;
 	}
 	
 	

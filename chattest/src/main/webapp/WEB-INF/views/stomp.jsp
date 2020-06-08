@@ -159,8 +159,25 @@ $(function () {
                 
                 
             </table>
+            <table>
+            <c:forEach  var="i" items="${list }" >
+            	<tr>
+            		<td>${i.roomname }</td>
+            		<td>${i.senderno }</td>
+            		<td>${i.chatcontent }</td>
+            		<td>${i.chattime }</td>
+            	</tr>
+            
+            </c:forEach>
+            </table>
+
+      
         </div>
     </div>
+    
+    <%-- <jsp:include page="pop.jsp"></jsp:include> --%>
+    <c:import url="/chatroom/room/a"></c:import>
+    
 </div>
 </body>
 </html>

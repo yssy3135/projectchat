@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
@@ -17,6 +19,16 @@
 </head>
 <body>
 
+            <c:forEach  var="i" items="${list }" >
+            	<tr>
+            		<td>${i.roomname }</td>
+            		<td>${i.senderno }</td>
+            		<td>${i.chatcontent }</td>
+            		<td>${i.chattime }</td>
+            	</tr>
+            
+            </c:forEach>
+
 <div class="all">
 
 	<div id="list_header">
@@ -30,76 +42,29 @@
 		<aside>
 	        <ul id="alllist">
 	        
-	        	<li onclick="openForm()">
-		        	<span class="dot"></span>				<!-- dot = 로그인/비로그인 으로 색 구분  -->
-		        	<div>
-		        		<h2>사용자id 와 (이름)</h2>						<!-- 사용자 id와 이름 가져오기 -->
-		        	</div>
-				</li>
-	            
-	            <li onclick="openForm()">
-	            	<span class="dot"></span>
-	            		<div>
-	            			<h2>이윤수</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-		                <span class="dot"></span>
-		                <div>
-		                    <h2>이로운</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>				
-		                <div>
-		                    <h2>신한</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>
-		                <div>
-		                    <h2>한지수</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>
-		                <div>
-		                    <h2>백진우</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>
-		                <div>
-		                    <h2>주정은</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>
-		                <div>
-		                    <h2>박채은</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-	            		<span class="dot"></span>
-		                <div>
-		                    <h2>여기는 리스트!</h2>
-		                </div>
-	            </li>
-	            
-	            <li onclick="openForm()">
-		            	<span class="dot"></span>
-		            	<div>
-		                    <h2>이건 임시 넣은 데이터</h2>
-		            	</div>
-
-	            </li>
+	    		<c:forEach var="a" items="${memlist }">
+	    		<c:choose>
+	    			<c:when test="${id != a.mI_memId}">
+	    			<li class="memno">
+			        	<span class="dot"></span>				<!-- dot = 로그인/비로그인 으로 색 구분  -->
+			        	<div>
+			        		<h2 class="memname" id="${a.mI_memId }">  ${a.mI_memName}(${a.mI_memId })</h2>						<!-- 사용자 id와 이름 가져오기 -->
+			        		<input type="hidden"  value="${a.mI_memberNo}" />
+			        		<input type="hidden"  value="${a.mI_memName}" />
+			        	</div>
+					</li>
+	    			</c:when>
+	    			<c:when test="${id == a.mI_memId}">
+	    				<input type="hidden" id="myno" value= "${a.mI_memberNo}" />
+	    				<input type="hidden" id="myname" value= "${a.mI_memName}" />
+	    			</c:when>
+	    		
+	    		
+	    		</c:choose>
+	    	
+	    		
+	    		</c:forEach>
+	    		
 
 	            <!-- <li></li>이 DB에서 접속사용자 가져오게...  -->
 	          
@@ -312,9 +277,42 @@
 <!-- 채팅 화면  js  -->
 <script type="text/javascript">
 
-	function openForm() {   //이름클릭
+	$(".memno").click(function(){
+		
+		document.getElementById("chatbox").style.display = "block";
+		  var memno = document.getElementsByClassName("memno");
+		  console.dir(this.childNodes[5].childNodes[5].value);
+		  
+		 // document.getElementById("myid")
+		  console.log(document.getElementById("myno").value);
+		  console.log(document.getElementById("myname").value);
+		  var me = document.getElementById("myno").value;
+
+		  var receiver = this.childNodes[5].childNodes[5].value;
+		  var room;
+		if(me>receiver){
+			room = receiver+me
+			
+			
+		}else{
+			
+			room = me+receiver
+		}
+		  
+		 console.log(room)
+		
+	});
+	
+	
+/* 	function openForm() {   //이름클릭
 	  document.getElementById("chatbox").style.display = "block";
-	}
+	  var memno = document.getElementsByClassName("memno");
+	  console.dir(this);
+	
+		
+	
+	
+	} */
 
 	function closeForm() {
 	  document.getElementById("chatbox").style.display = "none";

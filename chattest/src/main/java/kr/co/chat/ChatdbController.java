@@ -5,17 +5,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import kr.co.chat.dao.ChatDAO;
+import kr.co.chat.dao.ChatDAOImple;
 import kr.co.chat.dto.CHATDTO;
 
-@Controller
 public class ChatdbController {
 
 
-	ChatDAO dao;
+	ChatDAOImple dao;
 	
 	
-	public void setDao(ChatDAO dao) {
+	public void setDao(ChatDAOImple dao) {
 		this.dao = dao;
 	}
 	

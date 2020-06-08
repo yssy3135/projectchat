@@ -1,10 +1,10 @@
 package kr.co.chat;
 
-
 import java.util.List;
 
-
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
+import kr.co.chat.dao.ChatDAO;
+import kr.co.chat.dao.ChatDAOImple;
+import kr.co.chat.dto.CHATDTO;
+import kr.co.chat.dto.MemberDTO;
+import kr.co.chat.dto.MemberidDTO;
 
 //@RequiredArgsConstructor 
 //어노테이션은 final이나 @NonNull인 필드 값만 파라미터로 받는 생성자를 만들어줍니다
@@ -25,20 +31,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/chatroom")
 public class ChatRoomController {
-	
-	@Autowired
-	private  ChatRoomRepository chatRoomRepository;
-	
 
+	@Autowired
+	private ChatRoomRepository chatRoomRepository;
+	@Inject
+	private ChatDAO dao;
+
+	public void setDao(ChatDAOImple dao) {
+		this.dao = dao;
+	}
 
 	// 채팅 리스트 화면
 	@GetMapping("/room")
 	public String room(Model model) {
-		
+
 		return "chatlist";
 	}
-	
-	
+
 	/*
 	 * // 모든 채팅방 목록 반환
 	 * 
@@ -56,52 +65,64 @@ public class ChatRoomController {
 	 * 
 	 * return mav; }
 	 */
-	
+
 	// 모든 채팅방 목록 반환
 	@GetMapping("/rooms")
 	@ResponseBody
-	public List<ChatRoom> room(HttpServletRequest req){
+	public List<ChatRoom> room(HttpServletRequest req) {
 		System.out.println(req.getAttribute("id"));
-		
+
 		return chatRoomRepository.findAllRoom();
 	}
-	
-	
-	//채팅방 생성
-	@RequestMapping("/room/{roomname}")
-	//@ResponseBody
-	public String createRoom(@PathVariable String roomname) {
+
+	// 채팅바
+	@RequestMapping("/room/side")
+	// @ResponseBody
+	public String createRoom(Model model,HttpServletRequest req) {
+
+		// withh가 어셈블 이름
+		List<MemberDTO> memlist = dao.getid("withh");
 		
-		
-		chatRoomRepository.createChatRoom(roomname);
-	
-		return "pop";
-	}
-	
-	
-//	public ChatRoom createRoom(@RequestParam String name) {
-//		return chatRoomRepository.createChatRoom(name);
-//	}
-	
-	//채팅방 입장
-	@GetMapping("/enter/{roomId}")
-	public String roomDetail(HttpServletRequest req,@PathVariable String roomId) {
-		//model.addAttribute("roomId", roomId);
-		
-		//Model객체는 이용하여 view로 데이터전송
-		//데이터 전송
-		HttpSession session = req.getSession();
+		model.addAttribute("memlist", memlist);
+		 HttpSession session = req.getSession();
 		session.setAttribute("id", "yssy3135");
 		
 		
 		
 		
-		//return "/chat/roomdetail";
-		return "stomp";
-		
+		 System.out.println(memlist.get(0).getmI_memName());
+		 
+		return "pop";
 	}
-	
+
+//	public ChatRoom createRoom(@RequestParam String name) {
+//		return chatRoomRepository.createChatRoom(name);
+//	}
+
+	// 채팅방 입장
+	@GetMapping("/enter/{roomId}")
+	public String roomDetail( @PathVariable String roomId, Model model,HttpServletRequest req) {
+		// model.addAttribute("roomId", roomId);
 
 	
-	
+		 List<CHATDTO> list = dao.getchat(1415);
+		 model.addAttribute("list",list);
+		 
+		//req.setAttribute("list", list); 
+		 
+		 
+		 
+		 System.out.println(list.get(0).getChatcontent());
+		 
+
+		// Model객체는 이용하여 view로 데이터전송
+		// 데이터 전송
+		 HttpSession session = req.getSession();
+		session.setAttribute("id", "yssy3135");
+
+		// return "/chat/roomdetail";
+		return "stomp";
+
+	}
+
 }

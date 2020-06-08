@@ -5,14 +5,19 @@
   
   
   
-  <mapper namespace="kr.co.chat.chatMepper">
+  <mapper namespace="kr.co.chat.chatMapper">
   <!-- <mapper namespace=" "> -->
-  	<select id="getTime" resultType="String">
-  		select now()
+  	
+  	<select id="getchat" resultType="dto">
+  		select * from chat where roomname = #{roomId}
   	</select>
   	
-
-  
+  	<select id="getmember" resultType="memberDTO">
+  		<!-- select * from memberinfo where mi_memberno = #{memberno} -->
+  		select *
+		from memberinfo
+		where mi_assembleName = 'withh';
+  	</select>
   </mapper>
   
   

@@ -8,16 +8,11 @@
   <mapper namespace="kr.co.chat.chatMapper">
   <!-- <mapper namespace=" "> -->
   	
-  	<select id="getchat" resultType="dto">
+  	<select id="getchat" resultType="dto" parameterType="int">
   		select * from chat where roomname = #{roomId}
   	</select>
   	
-  	<select id="getmember" resultType="memberDTO">
-  		<!-- select * from memberinfo where mi_memberno = #{memberno} -->
-  		select *
-		from memberinfo
-		where mi_assembleName = 'withh';
-  	</select>
+
   </mapper>
   
   

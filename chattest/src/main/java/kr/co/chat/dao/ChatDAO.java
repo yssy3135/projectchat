@@ -1,22 +1,16 @@
 package kr.co.chat.dao;
 
-import javax.inject.Inject;
+import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
+import kr.co.chat.dto.CHATDTO;
+import kr.co.chat.dto.MemberDTO;
+import kr.co.chat.dto.MemberidDTO;
 
-
-@Repository
-public class ChatDAO {
+public interface ChatDAO {
 	
-	private static final String NAMESPACE = "kr.co.chat.chatMepper";
-	
-	
-	@Inject
-	private SqlSession session;
+	public List<CHATDTO> getchat(int roomname);
+	public List<MemberDTO> getid(String assemblename);
 	
 	
-	
-
 	
 }

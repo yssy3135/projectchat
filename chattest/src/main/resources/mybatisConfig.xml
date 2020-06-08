@@ -19,9 +19,14 @@
   	
   </environments>   -->
   
-  <typeAliases>
-  	<package name="kr.co.chat.dto"/>  <!-- 각각 별칭을 주는게 vo패키지를 잡아주면 알아서 들어간다. -->
+  <typeAliases >
+  	 <!-- <package name="kr.co.chat.dto"  />  -->  <!-- 각각 별칭을 주는게 vo패키지를 잡아주면 알아서 들어간다. -->
+  	<!-- <package name="com.exam.vo"/> -->
+  	<typeAlias  type="kr.co.chat.dto.CHATDTO" alias="dto"/>
+	<typeAlias type="kr.co.chat.dto.MemberDTO" alias="memberDTO"/>
   </typeAliases>
-  
+
   			
   </configuration>
+  
+  
