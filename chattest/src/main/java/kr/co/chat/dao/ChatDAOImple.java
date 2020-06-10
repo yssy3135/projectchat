@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import kr.co.chat.Chatgogo;
 import kr.co.chat.dto.CHATDTO;
 import kr.co.chat.dto.MemberDTO;
 
@@ -35,6 +36,14 @@ public class ChatDAOImple implements ChatDAO {
 	public List<MemberDTO> getid(String assemblename) {
 		// TODO Auto-generated method stub
 		return session.selectList(NAMESPACE+".getmember",assemblename);
+	}
+
+
+	@Override
+	public void inputchat(Chatgogo gogo) {
+		
+		 session.insert(NAMESPACE+".inputchat", gogo);
+		 
 	}
 	
 	

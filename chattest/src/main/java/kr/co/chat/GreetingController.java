@@ -34,15 +34,17 @@ public class GreetingController {
 		System.out.println(message.getName());
 		System.out.println(message.getRoomid());
 		System.out.println(message.getContents());
+		System.out.println(message.getSender());
 		
 		//System.out.println("rpomname"+roomname);
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		String time = sdf.format(new Date());
-	;
-		
+	
+	
 		//return new Greeting("Hello," +HtmlUtils.htmlEscape(message.getName())+"님 접속했습니다" );
-		return new Greeting(message.getName()+" : " +message.getContents(),time  );
+		return new Greeting(message.getContents(),time,message.getName(),message.getSender());
+	
 	}
 	
 

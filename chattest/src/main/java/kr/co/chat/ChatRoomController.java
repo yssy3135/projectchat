@@ -1,6 +1,7 @@
 package kr.co.chat;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 
@@ -124,5 +127,50 @@ public class ChatRoomController {
 		return "stomp";
 
 	}
+	
+	@ResponseBody
+	@RequestMapping( value = "/room/getchat" , method = RequestMethod.POST)
+	public List<CHATDTO>getchat(HttpServletRequest req, @RequestParam int roomid ){
+	
+		System.out.println("방아이디"+roomid);
+		
+		List<CHATDTO> list = dao.getchat(roomid);
+	
+		return list;
+		
+	}
+	
+	
+	@RequestMapping(value = "/room/inputchat")
+	public void inputchat(HttpServletRequest req,Chatgogo chatgogo) {
+		
+		// 받아야하는 데이터 ${sessiongname},roomid.채팅내용,보낸사람,sysdate();
+		dao.inputchat(chatgogo);
+		System.out.println("입력 데이터 :"+chatgogo.getChatcontents()  );
+
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

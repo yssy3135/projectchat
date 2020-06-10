@@ -5,16 +5,20 @@ public class HelloMessage {
 	private String contents; 
 	private String roomid;
 	private String sendTime;
+	private String sender;
 	
 	
 	
 	
-	public HelloMessage(String name, String contents, String roomid ) {
+	
+
+	public HelloMessage(String name, String contents, String roomid, String sendTime, String sender) {
 		super();
 		this.name = name;
 		this.contents = contents;
 		this.roomid = roomid;
-
+		this.sendTime = sendTime;
+		this.sender = sender;
 	}
 
 
@@ -70,6 +74,16 @@ public class HelloMessage {
 
 	public void setSendTime(String sendTime) {
 		this.sendTime = sendTime;
+	}
+
+
+	public String getSender() {
+		return sender;
+	}
+
+
+	public void setSender(String sender) {
+		this.sender = sender;
 	}
 
 }

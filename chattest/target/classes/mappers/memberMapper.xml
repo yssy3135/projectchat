@@ -18,6 +18,14 @@
 		from memberinfo
 		where mi_assembleName = 'withh';
   	</select>
+  	
+  	<insert id="inputchat">
+  		insert into chat
+  		values(#{roomid},#{assemblename},#{senderno},#{chatcontents},sysdate());
+  	</insert>
+  	
+  	
+  	
   </mapper>
   
   
