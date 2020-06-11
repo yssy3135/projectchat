@@ -135,21 +135,39 @@ $(function () {
             		<td>${i.chatcontent }</td>
             		<td>${i.chattime }</td>
             	</tr>
+            	
             
             </c:forEach>
 
 <div class="all">
 	<div id="list_header">
-		<span id="head_font">대화</span>
+		<span id="head_font">그룹대화</span>
 		<a href="#" id="plus" class="plus">
 			<span id="plus_chat_window" class="glyphicon glyphicon-plus icon_plus" onclick="newopenForm()"></span>        <!-- puls 이모티콘 추가-->
 		</a>
 	</div>
 	
+	
+	
+	
 	<div id="list">
 		<aside>
+		<div id="grouplist">
+				<ul id="group">
+					<c:forEach var="i" items="${grouplist }">
+						<li class = "memno" id = "groupchat">
+							<div id = "groupchat">
+								<h2 class="memberno" id="${i.togetherno}"> ${i.roomname} </h2>
+						</div>
+					</li>			
+						
+					</c:forEach>	
+			</ul>
+		</div>
+			
 	        <ul id="alllist">
-	        
+	        	<br />
+	        	<h3>대화</h3>
 	    		<c:forEach var="a" items="${memlist }">
 		    		<c:choose>
 		    			<c:when test="${id != a.mI_memId}">
@@ -274,10 +292,9 @@ $(function () {
                 	<c:forEach var="a" items="${memlist }">
 		    		<c:choose>
 		    			<c:when test="${id != a.mI_memId}">
-						<div  id = "${a.mI_memberNo}">
-		                	<a href="#" onclick= startchat("${a.mI_memName}(${a.mI_memId })","${a.mI_memberNo}")  >
-		                		<span > ${a.mI_memName}(${a.mI_memId })</span>
-		                		<span class="glyphicon glyphicon-remove icon_close_member" data-id="member"></span>
+						<div  id = "${a.mI_memberNo}" class = "memberblock">
+		                	<a href="#" onclick= startchat("<c:out value="${a.mI_memName}"/>","<c:out value="${a.mI_memId}"/>","<c:out value="${a.mI_memberNo}"/>") >
+		                		<span > ${a.mI_memName}(${a.mI_memId })</span>            
 		                	</a>                 	
                 		</div>
 
@@ -349,12 +366,46 @@ $(function () {
 	var sendernameid;
 	var myno = document.getElementById("myno").value;
 	
-	$(".memno").click(function(){
+	/* $(".memno").click(function(){ */
+		$(document).on("click",".memno",function(){
+			
 		disconnect();
+		console.log("사이드바 클릭")
 		
+		var room;
+		if(this.id== "groupchat"){
+			console.log("그룹챗");
+			
+			 var receivername = this.childNodes[1].innerText;
+			  var receiverno = console.log(this.childNodes[1].childNodes[1].id);  
+			//console.log(this.childNodes[1]..childNodes[1].id);
+			room = receiverno;
+			/*  receiverno = this.childNodes[1].childNodes[0].id.split(","); */
+			room = this.childNodes[1].childNodes[1].id+"g";
+			console.log("방번호"+room);
+			 
+			 
+			 
+		
+		}else{
+			
+			 var receivername = this.childNodes[5].childNodes[1].innerText;
+			 var receiverno = this.childNodes[5].childNodes[5].value;
+			 
+		
+			 var me = document.getElementById("myno").value;
+			 // var receiverno = this.childNodes[5].childNodes[5].value;
+			
+			if(me>receiverno){
+				room = receiverno+me;
+			}else{
+				room = me+receiverno;
+			}
+		
+		}
 		document.getElementById("chatbox").style.display = "block";
 		  var memno = document.getElementsByClassName("memno");
-		  console.dir(this.childNodes[5].childNodes[5].value);
+		 
 		  
 		 // document.getElementById("myid")
 		  console.log(document.getElementById("myno").value);
@@ -364,23 +415,24 @@ $(function () {
 		  console.log(sendernameid);
 		  
 		  //사용자 이름 표시
-		 var aaa=  document.getElementById("panel-title"); 
-		 var receivername = this.childNodes[5].childNodes[1].innerText;
-		 aaa.innerText = receivername;
-		 console.log(aaa.innerText);
-		 nameid = receivername;
+			 var aaa=  document.getElementById("panel-title"); 
+		  
+			 aaa.innerText = receivername;
+			 console.log(aaa.innerText);
+			 nameid = receivername;
+		 
 		
 		 // sub 방 이름
-		  var room;
+/* 		  var room;
 		  var me = document.getElementById("myno").value;
-		  var receiverno = this.childNodes[5].childNodes[5].value;
+		 // var receiverno = this.childNodes[5].childNodes[5].value;
 		
 		if(me>receiverno){
 			room = receiverno+me
 		}else{
 			room = me+receiverno
-		}
-		  
+		} */
+		   
 		 console.log(room)
 		 rooom = room;
 		
@@ -427,7 +479,7 @@ $(function () {
 	    });
 	   
 	   
-	    // 채팅 내용 부러오기
+	    // 채팅 내용 불러오기
 	    $("").appendTo("#messagebody");
 	   $("#messagebody").empty();
 	    
@@ -439,8 +491,9 @@ $(function () {
 	    	success: function(list){
 	  		for(var i=0 ; i <list.length;i++){
 	    		
-	  			if(list[i].senderno == me)
+
 	  				 var memno = document.getElementsByClassName("memno");
+	  			
 	  			
 	    			console.log("성공"+list[i].chatcontent);
 	  			
@@ -591,7 +644,7 @@ $(function () {
 	
 	// db에 채팅내용 저장 
     $.ajax({
-    	url: "/chatroom/room/inputchat",
+    	url: "/chatroom/room/inputchat/",
     	type : "POST",
     	data : {"roomid":rooom,
     			"assemblename" : "withh",  //세션에서 어셈블이름 불러와야함
@@ -664,6 +717,10 @@ $(function () {
 	
 	function newopenForm() {
 	  document.getElementById("pluschatbox").style.display = "block";
+	  
+	  map.clear();
+	  console.log(1);
+	  
 	}
 
 	function newcloseForm() {
@@ -739,14 +796,16 @@ function list_search() {
             li[i].style.display = "none";
         }
     }
-}
+};
 
 
 // 단체 채팅 생성
-	const memArr = [];
-	const map = new Map();
-function startchat(pulsmember,plusmemberno) {
 	
+	var map =new Map();
+	
+function startchat(name,id,plusmemberno) {
+	
+	pulsmember = name+"("+id+")";
 	console.log("넘어온 데이터", pulsmember+plusmemberno);
 	
 	if(map.has(plusmemberno)){
@@ -773,8 +832,90 @@ function startchat(pulsmember,plusmemberno) {
 	
 	clickmem.style.color = "#497BD9";						//검색해서 나온 이용자를 클릭 하면 버튼 활성화!
 	/* color: #497BD9; 버튼이 파란색으로 바뀐다..... */
+
 	
-}
+	
+};
+
+
+
+// 단채채팅 만들기
+$("#new-chat").click(function(){
+	var title ="";
+	var roomid=[];
+	
+	for ( let item of map ) {
+		title= title+item[1];
+		roomid.push(Number(item[0]) );
+		}
+
+		roomid.push(Number(document.getElementById("myno").value));	
+		
+	console.log(title);
+	console.log(roomid.sort(function(a, b) { // 오름차순
+	    return a - b;
+
+	}));
+	
+	var togetherno = "";
+	for(var i = 0 ; i < roomid.length;i++){
+		togetherno = togetherno + roomid[i];
+	}
+	
+	console.log(togetherno+"a");
+	togetherno = togetherno+"g";
+	
+	// 창닫고
+	document.getElementById("pluschatbox").style.display = "none";
+	// 블록색 원래대로
+	var block =document.getElementsByClassName("memberblock");
+	
+	for(var i = 0 ; i < block.length;i++){
+		block[i].style.backgroundColor = "#f6f6f6";
+	}
+	
+	
+	//backgroundColor = "#f6f6f6";
+	//block.style.backgroundColor = "#f6f6f6";
+	
+
+
+
+
+	 var aaa=  document.getElementById("panel-title"); 
+	 aaa.innerText = title;
+	 $("#messagebody").empty();
+
+	 
+	 var newgroupchat = 
+		 '<li class="memno" id ="groupchat">'+
+	 	'<span class="dot"></span>'+			
+	 	'<div>'+
+	 		'<h2 class="memname" id='+roomid+'>'+ title+' </h2>'+						
+	 	'</div>'+
+		'</li>';
+	 
+	 
+	 $(newgroupchat).appendTo("#alllist");	
+	 
+	 
+ 		for(var i = 0 ; i < roomid.length;i++){
+			
+		    $.ajax({
+		    	url: "/chatroom/room/insertgroup",
+		    	type : "POST",
+		    	data : {"togetherno":togetherno,
+		    			"assemblename" : "withh",  //세션에서 어셈블이름 불러와야함
+		    			"roomname" : title,
+		    			"memberno": roomid[i]
+		    	}
+		    });
+		 
+		} 
+
+	
+});
+
 
 
 

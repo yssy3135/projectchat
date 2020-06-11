@@ -25,6 +25,7 @@ import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import kr.co.chat.dao.ChatDAO;
 import kr.co.chat.dao.ChatDAOImple;
 import kr.co.chat.dto.CHATDTO;
+import kr.co.chat.dto.GroupChatDTO;
 import kr.co.chat.dto.MemberDTO;
 import kr.co.chat.dto.MemberidDTO;
 
@@ -78,7 +79,7 @@ public class ChatRoomController {
 		return chatRoomRepository.findAllRoom();
 	}
 
-	// 채팅바
+	// 채팅바(메인화면 오면 
 	@RequestMapping("/room/side")
 	// @ResponseBody
 	public String createRoom(Model model,HttpServletRequest req) {
@@ -88,12 +89,20 @@ public class ChatRoomController {
 		
 		model.addAttribute("memlist", memlist);
 		 HttpSession session = req.getSession();
+		 System.out.println(session.getAttribute("id"));
+		/* int memberno = (int) session.getAttribute("bno"); */
+		 int memberno = 1;
+		 
+		 
+		 List<GroupChatDTO> grouplist=dao.selectgroupchat(memberno);
+		 model.addAttribute("grouplist", grouplist);
+		 
 		session.setAttribute("id", "yssy3135");
 		
 		
 		
 		
-		 System.out.println(memlist.get(0).getmI_memName());
+		// System.out.println(memlist.get(0).getmI_memName());
 		 
 		return "pop";
 	}
@@ -108,7 +117,7 @@ public class ChatRoomController {
 		// model.addAttribute("roomId", roomId);
 
 	
-		 List<CHATDTO> list = dao.getchat(1415);
+		 List<CHATDTO> list = dao.getchat("1415");
 		 model.addAttribute("list",list);
 		 
 		//req.setAttribute("list", list); 
@@ -130,7 +139,7 @@ public class ChatRoomController {
 	
 	@ResponseBody
 	@RequestMapping( value = "/room/getchat" , method = RequestMethod.POST)
-	public List<CHATDTO>getchat(HttpServletRequest req, @RequestParam int roomid ){
+	public List<CHATDTO>getchat(HttpServletRequest req, @RequestParam String roomid ){
 	
 		System.out.println("방아이디"+roomid);
 		
@@ -153,8 +162,32 @@ public class ChatRoomController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping( value = "/room/insertgroup" , method = RequestMethod.POST)
+	public void insertgroup(HttpServletRequest req, GroupChatDTO insertGroupChat ){
+		
+		
+		//System.out.println(insertGroupChat.getTogetherno());
+		dao.insertgroup(insertGroupChat);
+		
 	
 	
+		
+	}
+	
+	
+	
+	@ResponseBody
+	@RequestMapping( value = "/room/selectgroupchat" , method = RequestMethod.POST)
+	public List<GroupChatDTO>selectgroupchat(HttpServletRequest req, @RequestParam int myno ){
+	
+		System.out.println("방아이디"+myno);
+		
+		 List<GroupChatDTO> grouplist = dao.selectgroupchat(myno);  
+	
+		return grouplist ;
+		
+	}
 	
 	
 	

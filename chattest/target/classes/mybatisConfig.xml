@@ -24,6 +24,7 @@
   	<!-- <package name="com.exam.vo"/> -->
   	<typeAlias  type="kr.co.chat.dto.CHATDTO" alias="dto"/>
 	<typeAlias type="kr.co.chat.dto.MemberDTO" alias="memberDTO"/>
+	<typeAlias type="kr.co.chat.dto.GroupChatDTO" alias="groupChatDTO"/>
   </typeAliases>
 
   			

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.chat.Chatgogo;
 import kr.co.chat.dto.CHATDTO;
+import kr.co.chat.dto.GroupChatDTO;
 import kr.co.chat.dto.MemberDTO;
 
 
@@ -26,7 +27,7 @@ public class ChatDAOImple implements ChatDAO {
 
 
 	@Override
-	public List<CHATDTO> getchat(int roomId) {
+	public List<CHATDTO> getchat(String roomId) {
 		System.out.println("여기온다"+roomId);
 		return session.selectList(NAMESPACE+".getchat",roomId);
 	}
@@ -44,6 +45,21 @@ public class ChatDAOImple implements ChatDAO {
 		
 		 session.insert(NAMESPACE+".inputchat", gogo);
 		 
+	}
+
+
+	@Override
+	public void insertgroup(GroupChatDTO insertGroupChat) {
+		
+		session.insert(NAMESPACE+".insertgroupchat", insertGroupChat);
+		
+	}
+
+
+	@Override
+	public List<GroupChatDTO> selectgroupchat(int myno) {
+		return session.selectList(NAMESPACE+".getgroup",myno);
+
 	}
 	
 	

@@ -1,7 +1,7 @@
 package kr.co.chat;
 
 public class Chatgogo {
-	private int roomid;
+	private String roomid;
 	private String assemblename;
 	private String chatcontents;
 	private int senderno;
@@ -12,7 +12,7 @@ public class Chatgogo {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Chatgogo(int roomid, String chatcontents, int senderno) {
+	public Chatgogo(String roomid, String chatcontents, int senderno) {
 		super();
 		this.roomid = roomid;
 		this.chatcontents = chatcontents;
@@ -23,7 +23,7 @@ public class Chatgogo {
 	
 	
 	
-	public Chatgogo(int roomid, String assemblename, String chatcontents, int senderno) {
+	public Chatgogo(String roomid, String assemblename, String chatcontents, int senderno) {
 		super();
 		this.roomid = roomid;
 		this.assemblename = assemblename;
@@ -35,10 +35,10 @@ public class Chatgogo {
 
 
 
-	public int getRoomid() {
+	public String getRoomid() {
 		return roomid;
 	}
-	public void setRoomid(int roomid) {
+	public void setRoomid(String roomid) {
 		this.roomid = roomid;
 	}
 	public String getChatcontents() {

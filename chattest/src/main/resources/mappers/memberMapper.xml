@@ -26,6 +26,19 @@
   	
   	
   	
+  	<insert id="insertgroupchat">
+  		insert into groupchat
+  		values(#{togetherno},#{assemblename},#{roomname},#{memberno});
+  	</insert>
+  	
+
+  	 <select id="getgroup" resultType="groupChatDTO">
+  		select *
+		from groupchat
+		where memberno = #{memberno};
+  	</select>
+  	
+  	
   </mapper>
   
   
